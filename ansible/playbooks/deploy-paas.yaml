@@ -1,0 +1,20 @@
+---
+# This playbook deploys the microservices of the PaaS 
+
+- hosts: all
+  gather_facts: false
+  become: yes
+#  roles:
+#    - 
+#  tags:
+#    - 
+  pre_tasks:
+    - raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - setup: # aka gather_facts
+
+
+# Install iam
+#- include: deploy-iam.yml
+
+- include: deploy-orchestrator.yml
+

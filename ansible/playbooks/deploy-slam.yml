@@ -1,0 +1,8 @@
+---
+- name: Deploy SLAM service
+  hosts: slam
+  become: yes
+  roles:
+    - slam
+  tags:
+    - slam

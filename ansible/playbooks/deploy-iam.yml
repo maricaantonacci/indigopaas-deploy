@@ -1,0 +1,8 @@
+---
+- name: Deploy IAM service
+  hosts: iam
+  become: yes
+  roles:
+    - iam
+  tags:
+    - iam

@@ -1,0 +1,23 @@
+---
+- name: "Create nginx conf file"
+  template:
+    src=nginx.conf.j2 dest="{{ iam_conf_dir }}/nginx-default.conf"
+  tags:
+    - iam
+
+
+- name: start nginx container for IAM
+  docker_container:
+    name: iam-proxy
+    image: "{{ iam_nginx_image }}"
+    detach: true
+    state: started
+    network_mode: "host"
+    volumes:
+    - "{{ iam_conf_dir }}/nginx-default.conf:/etc/nginx/conf.d/default.conf"
+    - "{{ iam_ssl_cert_path }}:/etc/nginx/cert.crt"
+    - "{{ iam_ssl_key_path }}:/etc/nginx/cert.key"
+    restart_policy: always
+  tags:
+    - iam
+  

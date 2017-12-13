@@ -1,0 +1,8 @@
+---
+- name: Deploy IM service
+  hosts: im
+  become: yes
+  roles:
+    - im
+  tags:
+    - im

@@ -1,0 +1,8 @@
+---
+- name: Deploy Orchestrator service
+  hosts: orchestrator
+  become: yes
+  roles:
+    - orchestrator
+  tags:
+    - orchestrator

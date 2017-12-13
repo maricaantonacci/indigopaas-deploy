@@ -1,0 +1,8 @@
+---
+- name: Deploy CPR service
+  hosts: cpr
+  become: yes
+  roles:
+    - cpr
+  tags:
+    - cpr
