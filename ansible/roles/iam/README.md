@@ -1,4 +1,4 @@
-Role Name
+IAM Role
 =========
 
 This role allows to deploy the INDIGO IAM service.
@@ -24,6 +24,26 @@ JSON web keys generation:
 git clone https://github.com/mitreid-connect/json-web-key-generator 
 cd json-web-key-generator
 docker run --rm -it -v $(pwd):/project -w /project maven mvn package && java -jar target/json-web-key-generator-0.4-SNAPSHOT-jar-with-dependencies.jar   -t RSA -s 1024 -S -i rsa1 -o keys
+</pre>
+
+The file keys will be generated in the current directory with similar content:
+<pre>
+{
+  "keys": [
+    {
+      "p": "0quqRBb9OZn5BOFO2oUnVjS2lUqP7vcPVJNBVHU0ONdD504oSSJNgbRahALpKXmeL1ufEbjuC0NqdKh78G6jBw",
+      "kty": "RSA",
+      "q": "qY4qjHhTcHlrVaxXEieb1ACenvxc-PCWFk92PqdkxKbZaXOd-WPFUvfyN48KCTCGFd_Qatk0ja0W5pXhibdFWw",
+      "d": "HSHKAamFefAapUBHKySYLAR-0BY62hz1Bjx6ErbWlUpBWk2WmFjViKfSOMpMf_ZTqp8aUYjm9aahoaUBztNbGxz3oc9ElF39a7cMImWj_gJlyJM5Vg17ghamYmrdFnxIpF1nZQLQOrZJugVJDIHraBPZ79RquK5xze3ju7AOwpU",
+      "e": "AQAB",
+      "kid": "rsa1",
+      "qi": "Ql4CFDPYvSZoKUXQp8-zj39q-JHpwR4FCHFIA1WwJIUG4FWvdg00oeZgdo3JgwmVGQBPqPtti9qYPWgHebFaMg",
+      "dp": "zz2cM3tCA-YZ99kEzyZpuf4FFvvQd82GwTZS8BiUFM5-uA5Exxz9jfizimWqpOhE2mWRJ8f6NA5PrQ8JTU4pBQ",
+      "dq": "WQWcj14JqQ8G7Ndsa8rCBSBCKAUmJ0nh81rLIYAv5xQXKEec1LiufK5TzRnb0hFZBRkay065Sf1r_asJ3I2N6w",
+      "n": "i4hRoyfHVoXbisjVgA-g0Xt6gEDdOcoja6Ajm4Kr8Pku4JrH0IrbybGDEgbfK4PDUxpETRFj5kkj3vijEUpeT0e0OUNns1kdzr5rxhmyYyfibmMa2fMtqs8LrFD3BF6_B4UZ5zrIVUvI8xPl83pbczqMpZT6Z3g51Y-8WJJF1n0"
+    }
+  ]
+}
 </pre>
 
 References:
