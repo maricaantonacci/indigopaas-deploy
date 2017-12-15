@@ -6,19 +6,28 @@ This role allows to deploy the INDIGO IAM service.
 Requirements
 ------------
 
+### Google Authentication
 If you want to enable Google Auth you need to create a new client:
 
-Google need to trust in requester application to work with. To do so, you need to access to Google developers console and create and configure a new credential project.
+Access to Google developers console and create and configure a new credential project.
+
 Go to: https://console.developers.google.com/apis/credentials
+
 Create Credentials > OAuth Client ID
+
 Application Type: Web Application
+
 Name: Service Provider (SP) name
+
 Let's assume that our server is iam.com:
+
 Authorized JavaScript origins: https://iam.example.com.
+
 Authorized redirect URIs: https://iam.example.com/openid_connect_login. Keep that in mind.
+
 Copy client ID and client secret. You will need them for configuration.
 
-JSON web keys generation:
+### JSON web keys generation:
 
 <pre>
 git clone https://github.com/mitreid-connect/json-web-key-generator 
