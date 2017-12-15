@@ -32,10 +32,10 @@ Copy client ID and client secret. You will need them for configuration.
 <pre>
 git clone https://github.com/mitreid-connect/json-web-key-generator 
 cd json-web-key-generator
-docker run --rm -it -v $(pwd):/project -w /project maven mvn package && java -jar target/json-web-key-generator-0.4-SNAPSHOT-jar-with-dependencies.jar   -t RSA -s 1024 -S -i rsa1 -o keys
+docker run --rm -it -v $(pwd):/project -w /project maven mvn package && java -jar target/json-web-key-generator-0.4-SNAPSHOT-jar-with-dependencies.jar   -t RSA -s 1024 -S -i rsa1 -o keystore.jks
 </pre>
 
-The file keys will be generated in the current directory with similar content:
+The file _keystore.jks_ will be generated in the current directory with similar content:
 <pre>
 {
   "keys": [
@@ -54,6 +54,8 @@ The file keys will be generated in the current directory with similar content:
   ]
 }
 </pre>
+
+This file will be copied by the ansible role _iam_ to the remote node
 
 References:
 https://iam-docs.gitbooks.io/iam-documentation/content/v/develop/admin-guide/json_web_key.html
