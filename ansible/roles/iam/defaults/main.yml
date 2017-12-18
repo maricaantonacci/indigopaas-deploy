@@ -12,11 +12,13 @@ iam_db_name: iam
 iam_db_user: iam
 # iam_db_password --> mandatory
 
-iam_java_opts: '-Dspring.profiles.active=prod,registration,google,saml -Djava.security.egd=file:/dev/urandom'
+
+iam_profiles: "prod,registration{%- if iam_enable_google_auth==true -%},google{%- endif -%}{%- if iam_enable_saml_auth==true -%},saml{%- endif -%}"
+
+iam_java_opts: "-Dspring.profiles.active={{iam_profiles}} -Djava.security.egd=file:/dev/urandom"
 iam_base_url: "https://{{iam_fqdn}}"
 iam_issuer: "https://{{iam_fqdn}}/"
 iam_use_forwarded_headers: true
-iam_keystore_local_path: "~/keystore.jks"
 iam_db_host: 127.0.0.1
 iam_db_validation_query: 'SELECT 1'
 iam_organization_name: 'indigo-dc'
@@ -31,7 +33,6 @@ iam_google_redirect_uris: "https://{{iam_fqdn}}/openid_connect_login"
 iam_enable_saml_auth: false
 iam_saml_idp_metadata: ''
 iam_saml_metadata_require_valid_signature: false
-iam_saml_metadata_lookup_service_refresh_period_sec: 3600
 iam_saml_keystore_password: 's3cret'
 iam_saml_key_password: 's3cret'
 iam_saml_metadata_require_sirtfi: false
@@ -52,4 +53,11 @@ iam_nginx_image: nginx
 iam_nginx_hostname: "{{iam_fqdn}}"
 iam_ssl_cert_path: /etc/letsencrypt/live/indigoiam.cloud.ba.infn.it/fullchain.pem
 iam_ssl_key_path: /etc/letsencrypt/live/indigoiam.cloud.ba.infn.it/privkey.pem
+
+
+#####
+iam_json_web_key_gen_url: "https://github.com/mitreid-connect/json-web-key-generator/archive/json-web-key-generator-0.3.tar.gz"
+iam_json_web_key_path: "json-web-key-generator-json-web-key-generator-{{iam_json_web_key_version}}"
+iam_json_web_key_jar: "json-web-key-generator-{{iam_json_web_key_version}}-jar-with-dependencies.jar"
+iam_json_web_key_version: '0.3'
 

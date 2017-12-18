@@ -36,14 +36,25 @@
   tags:
     - iam
 
-#- name: "Create the keys"
-#docker run --rm -it -v $(pwd):/project -w /project maven mvn package && java -jar target/json-web-key-generator-0.4-SNAPSHOT-jar-with-dependencies.jar   -t RSA -s 1024 -S -i rsa1 -o keys
 
-- name: "Copy the keystore file to remote node"
-  copy:
-    src: "{{ iam_keystore_local_path }}"
-    dest: "{{iam_conf_dir}}/keystore.jks"
-    
+- name: "Download json-web-key-generator"
+  unarchive: 
+    src: "{{iam_json_web_key_gen_url}}"
+    dest: "{{iam_conf_dir}}"
+    remote_src: yes
+
+- name: "Compile the json-web-key-generator"
+  shell: "docker run --rm -v $(pwd):/project -w /project/{{iam_json_web_key_path}} maven mvn package"
+  args: 
+    chdir: "{{iam_conf_dir}}"
+    creates: "{{iam_conf_dir}}/{{iam_json_web_key_path}}/target/{{iam_json_web_key_jar}}" 
+
+- name: "Create the keys"
+  shell: docker run --rm -v $(pwd):/project -w "/project/{{iam_json_web_key_path}}" maven java -jar target/{{iam_json_web_key_jar}} -t RSA -s 1024 -S -i rsa1 -o "/project/keystore.jks"
+  args:
+    chdir: "{{iam_conf_dir}}"
+    creates: "{{iam_conf_dir}}/keystore.jks"
+
 
 - name: Start iam container
   docker_container:
