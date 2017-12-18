@@ -39,6 +39,12 @@
 #- name: "Create the keys"
 #docker run --rm -it -v $(pwd):/project -w /project maven mvn package && java -jar target/json-web-key-generator-0.4-SNAPSHOT-jar-with-dependencies.jar   -t RSA -s 1024 -S -i rsa1 -o keys
 
+- name: "Copy the keystore file to remote node"
+  copy:
+    src: "{{ iam_keystore_local_path }}"
+    dest: "{{iam_conf_dir}}/keystore.jks"
+    
+
 - name: Start iam container
   docker_container:
     name: iam-login-service
