@@ -1,12 +1,12 @@
 server {
       listen         80;
-      server_name    {{ nginx_hostname }};
+      server_name    {{ iam_nginx_hostname }};
       return         301 https://$server_name$request_uri;
 }
 
 server {
   listen        443 ssl;
-  server_name  {{ nginx_hostname }};
+  server_name  {{ iam_nginx_hostname }};
   access_log   /var/log/nginx/iam.access.log  combined;
 
   ssl on;
