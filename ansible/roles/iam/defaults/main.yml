@@ -13,15 +13,15 @@ iam_db_user: iam
 # iam_db_password --> mandatory
 
 iam_java_opts: '-Dspring.profiles.active=prod,registration,google,saml -Djava.security.egd=file:/dev/urandom'
-iam_base_url: "https://{{iam_fqdn}}/"
+iam_base_url: "https://{{iam_fqdn}}"
 iam_issuer: "https://{{iam_fqdn}}/"
 iam_use_forwarded_headers: true
-iam_keystore_location: file:/etc/iam/keystore.jks
+iam_keystore_local_path: "~/keystore.jks"
 iam_db_host: 127.0.0.1
 iam_db_validation_query: 'SELECT 1'
 iam_organization_name: 'indigo-dc'
 iam_logo_url: resources/images/indigo-logo.png
-iam_topbar_title: "INDIGO IAM for {{IAM_ORGANISATION_NAME}}"
+iam_topbar_title: "INDIGO IAM for {{iam_organization_name}}"
 
 iam_enable_google_auth: false
 iam_google_client_id: ''
