@@ -31,7 +31,20 @@ iam_google_client_secret: ''
 iam_google_redirect_uris: "https://{{iam_fqdn}}/openid_connect_login"
 
 iam_enable_saml_auth: false
+
+iam_openssl_self_signed:
+  name : "{{iam_fqdn}}" 
+  country: "" 
+  state: "" 
+  city: ""
+  organization: "" 
+  unit: "" 
+  email: "" 
+
+
+iam_saml_idp_host: ''
 iam_saml_idp_metadata: ''
+iam_saml_idp_certificate_url: ''
 iam_saml_metadata_require_valid_signature: false
 iam_saml_keystore_password: 's3cret'
 iam_saml_key_password: 's3cret'
@@ -42,6 +55,7 @@ iam_saml_keystore: ''
 iam_saml_metadata_lookup_service_refresh_period_sec: 3600
 iam_saml_login_button_text: Sign in with SAML
 iam_saml_id_resolvers: eduPersonUniqueId,eduPersonTargetedId,eduPersonPrincipalName
+
 iam_notification_disable: false
 iam_notification_from: ''
 iam_notification_task_delay: 30000
@@ -51,8 +65,8 @@ iam_account_linking_disable: false
 
 iam_nginx_image: nginx
 iam_nginx_hostname: "{{iam_fqdn}}"
-iam_ssl_cert_path: /etc/letsencrypt/live/indigoiam.cloud.ba.infn.it/fullchain.pem
-iam_ssl_key_path: /etc/letsencrypt/live/indigoiam.cloud.ba.infn.it/privkey.pem
+iam_ssl_cert_path: "/etc/letsencrypt/live/{{iam_fqdn}}/fullchain.pem"
+iam_ssl_key_path: "/etc/letsencrypt/live/{{iam_fqdn}}/privkey.pem"
 
 
 #####
