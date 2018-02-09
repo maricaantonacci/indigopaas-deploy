@@ -9,7 +9,7 @@
 - name: start nginx container for IAM
   docker_container:
     name: iam-proxy
-    image: "{{ iam_nginx_image }}"
+    image: "{{ nginx_image }}"
     detach: true
     state: started
     network_mode: "host"

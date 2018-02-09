@@ -63,7 +63,7 @@ iam_notification_admin_address: indigo-alerts@localhost
 iam_mail_host: localhost
 iam_account_linking_disable: false
 
-iam_nginx_image: nginx
+nginx_image: nginx
 iam_nginx_hostname: "{{iam_fqdn}}"
 iam_ssl_cert_path: "/etc/letsencrypt/live/{{iam_fqdn}}/fullchain.pem"
 iam_ssl_key_path: "/etc/letsencrypt/live/{{iam_fqdn}}/privkey.pem"
