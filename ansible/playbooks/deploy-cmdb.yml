@@ -1,0 +1,8 @@
+---
+- name: Deploy CMDB service
+  hosts: cmdb
+  become: yes
+  roles:
+    - cmdb
+  tags:
+    - cmdb
