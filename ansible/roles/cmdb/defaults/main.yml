@@ -1,0 +1,19 @@
+---
+# defaults file for indigopaas
+cmdb_install_proxy: true
+cmdb_nginx_image: nginx
+
+## CMDB
+cmdb_conf_dir: /etc/cmdb
+cmdb_image: indigodatacloud/cmdb:indigo_2
+cmdb_data_dir: /tmp
+
+cmdb_target_url: "{% if cmdb_install_proxy == true %}http://localhost/couch{% else %}http://localhost:5984{% endif %}"
+cmdb_crud_target_url: "{% if cmdb_install_proxy == true %}http://localhost/cmdb{% else %}http://localhost:5984/indigo-cmdb-v2/_design/schema/_rewrite{% endif %}"
+cmdb_crud_username: cmdb
+cmdb_crud_password: cmdbcrud
+cmdb_crud_admin_group: cmdb-dev-admins
+cmdb_oidc_userinfo: https://iam-test.indigo-datacloud.eu/userinfo
+
+couchdb_image: couchdb:1.6.1
+couchdb_data_dir: /data/couchdb

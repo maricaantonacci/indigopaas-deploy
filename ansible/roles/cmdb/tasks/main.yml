@@ -1,0 +1,5 @@
+---
+# tasks file for indigopaas
+- include: nginx.yml
+  when: cmdb_install_proxy == true
+- include: cmdb.yml

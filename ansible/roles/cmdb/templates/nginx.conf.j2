@@ -1,0 +1,18 @@
+server {
+        
+
+
+        location /cmdb/ {
+                proxy_pass       http://localhost:5984/indigo-cmdb-v2/_design/schema/_rewrite/;
+        }
+
+        location /couch/ {
+               proxy_pass       http://localhost:5984/;
+       }
+
+        location / {
+                internal;
+        }
+
+}	
+
