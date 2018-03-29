@@ -1,0 +1,16 @@
+---
+# defaults file for indigopaas
+
+im_conf_dir: /etc/im
+
+mysql_image: mysql
+mysql_data_dir: /data/mysql
+#mysql_root_password --> mandatory
+im_mysql_dbname: im
+im_mysql_user: im
+im_mysql_password: im
+im_mysql_host: 127.0.0.1
+
+im_image: indigodatacloud/im:indigo_2
+im_conf_file: /etc/im/im.cfg
+
