@@ -1,0 +1,108 @@
+---
+# tasks file for indigopaas.slam
+
+- name: "create directory path to store the configuration files" 
+  file:
+    path: "{{ orchestrator_conf_dir }}"
+    state: directory
+    mode: 0755
+
+- name: "create directory path to store the certificate file to be added to java keystore"
+  file:
+    path: "{{ orchestrator_conf_dir }}/certs"
+    state: directory
+  when: orchestrator_cert_file != ''
+
+
+- name: "Store certificate"
+  get_url: 
+    url: "{{orchestrator_cert_file}}"
+    dest: "{{ orchestrator_conf_dir }}/certs/cert.pem"
+  when: orchestrator_cert_file != ''
+
+- name: "Download custom tosca types"
+  get_url:
+    url: "{{orchestrator_custom_types_url}}"
+    dest: "{{orchestrator_conf_dir}}/custom_types.yaml"
+
+- name: "Create mysql container env file"
+  template:
+    src=mysql-env.j2 dest="{{ orchestrator_conf_dir }}/.mysqlenv"
+
+
+- name: Start mysql and create the deployments DB
+  docker_container: 
+    name: orchestrator-mysql
+    image: "{{ orchestrator_mysql_image }}"
+    detach: true
+    state: started
+    network_mode: host
+#    published_ports:
+#     - 3306:3306
+    volumes:
+    - "{{ orchestrator_mysql_data_dir }}:/var/lib/mysql"
+    restart_policy: always
+    env_file: "{{ orchestrator_conf_dir }}/.mysqlenv"
+
+
+- name: wait for mysql to be up and running 
+  wait_for: 
+     host: "localhost" 
+     port: "3306"
+     delay: 20
+     timeout: 600
+     connect_timeout: 10
+
+- name: install MySQL-python
+  package: 
+    name: python-mysqldb
+    state: present
+
+- name: create the workflow DB
+  mysql_db:
+    login_host: "{{orchestrator_mysql_host}}"
+    login_password: "{{orchestrator_mysql_root_password}}"
+    login_user: root
+    name: "{{orchestrator_workflow_dbname}}" 
+    state: present
+
+- name: add privileges to orchestrator db user
+  mysql_user:
+    append_privs: yes
+    host: "%"
+    login_host: "{{orchestrator_mysql_host}}"
+    login_password: "{{orchestrator_mysql_root_password}}"
+    login_user: root
+    name: "{{orchestrator_mysql_user}}"
+    password: "{{orchestrator_mysql_user}}"
+    priv: "{{orchestrator_workflow_dbname}}.*:ALL"
+    state: present
+
+
+- name: "Create Orchestrator container env file"
+  template:
+    src=orchestrator-env.j2 dest="{{ orchestrator_conf_dir }}/.orchenv"
+
+
+- name: "Create the oidc conf file"
+  template: 
+    src=orchestrator-application.j2 dest="{{ orchestrator_conf_dir }}/application.yml"
+
+- name: Start Orchestrator container
+  docker_container:
+    name: orchestrator
+    image: "{{ orchestrator_image }}"
+    detach: true
+    state: started
+    network_mode: "host"
+    volumes:
+      - "{{orchestrator_conf_dir}}/application.yml:/orchestrator/application.yml"
+      - "{{orchestrator_conf_dir}}/custom_types.yaml:/tosca/custom_types.yaml"
+      - "{{orchestrator_conf_dir}}/certs:/certs"
+    restart_policy: always
+    env_file: "{{ orchestrator_conf_dir }}/.orchenv"
+
+- name: Remove cert file
+  file: 
+    path: '{{ orchestrator_conf_dir }}/certs/cert.pem'
+    state: absent
